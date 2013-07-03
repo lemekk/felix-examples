@@ -1,10 +1,11 @@
 package com.lemekk.examples.felix.mic.service;
 
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
-import org.osgi.framework.Constants;
+import org.osgi.service.component.ComponentContext;
 
 import com.lemekk.examples.felix.mic.api.Greeter;
 
@@ -15,25 +16,22 @@ import com.lemekk.examples.felix.mic.api.Greeter;
  * 
  */
 // @formatter:off
-@Component
-@Service(value={Runnable.class, Greeter.class})
+@Component(immediate=true, metatype=true, name="Greeter service")
+@Service(Greeter.class)
 @Properties({
-	@Property(name = Constants.SERVICE_DESCRIPTION, value = "Greeter Service"),
-	@Property(name = Constants.SERVICE_VENDOR, value = "lemekk.com"),
-	@Property(name = "scheduler.expression", value = "0,10,20,30,40,50 * * * * ?", 
-		label = "Hello schedule", description = "Defines schedule for printing hello")
+	@Property(name="terefere")
 })
 // @formatter:on
-public class GreeterService implements Runnable, Greeter {
+public class GreeterService implements Greeter {
+
+	@Activate
+	protected void activate(final ComponentContext context) {
+		System.out.println("GreeterService up! (" + context.getProperties().get("terefere") + ")");
+	}
 
 	@Override
 	public void sayHello() {
 		sayHello("Greeter interface");
-	}
-
-	@Override
-	public void run() {
-		sayHello("Schedule");
 	}
 
 	private void sayHello(String source) {

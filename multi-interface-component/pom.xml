@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>multi-interface-component</artifactId>
@@ -8,22 +9,33 @@
 		<artifactId>felix</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<name>Mutli interface component</name>
+	<name>Mutli Interface Component</name>
 	<packaging>bundle</packaging>
 
 	<dependencies>
-        <dependency>
-      		<groupId>org.apache.felix</groupId>
-      		<artifactId>org.apache.felix.framework</artifactId>
-      		<version>4.2.1</version>
-    	</dependency>
-    	<dependency>
-		    <groupId>org.apache.felix</groupId>
-		    <artifactId>org.apache.felix.scr.annotations</artifactId>
-		    <version>1.9.4</version>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.framework</artifactId>
+			<version>4.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.scr.annotations</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>4.2.0</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -33,6 +45,8 @@
 				<configuration>
 					<instructions>
 						<Export-Package>com.lemekk.examples.felix.mic*;version="${project.version}"</Export-Package>
+						<Bundle-Activator>com.lemekk.examples.felix.mic.Activator</Bundle-Activator>
+						<Export-Service>com.lemekk.examples.felix.mic.api.Greeter</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -40,6 +54,14 @@
 				<!-- scr annotations - e.g. for generating OSGi component descriptors -->
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-scr-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-scr-scrdescriptor</id>
+						<goals>
+							<goal>scr</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
